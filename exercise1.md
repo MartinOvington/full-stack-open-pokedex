@@ -5,3 +5,5 @@ The first step in the CI process will be to run all files through a linter that 
 An alternative CI to GitHub Actions and Jenkins, is Travis CI. Travis CI is a continuous integration service for testing and building software on GitHub and Bitbucket. It is configured used a .travil.yml file in the root of the repository. Travis CI works with many languages, including C++, which makes it suitable for the example projoect above.
 
 The example project may be more economical to run on a self-hosted service, due to the CPU intensive nature of Raytracing. The tests that would need to be run may take a lot of CPU minutes. However, this depends on how frequently the code needs to be tested, the cost of the Cloud services and the expected length of time that the code will continue to be worked on.
+
+- Event trigger here -
