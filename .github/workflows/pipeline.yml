@@ -34,3 +34,4 @@ jobs:
           heroku_app_name: marty-pokedex
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           healthcheck: 'https://marty-pokedex.herokuapp.com/health'
+          rollbackonhealthcheckfailed: true
