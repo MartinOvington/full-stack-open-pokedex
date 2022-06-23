@@ -1,1 +1,1 @@
-web: npm run start-prodBREAK
+web: npm run start-prod
