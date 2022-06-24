@@ -6,7 +6,7 @@ describe('Pokedex', function () {
       'Pokémon and Pokémon character names are trademarks of Nintendo.'
     );
   });
-  it('can navigate from front-page to ivysaur page', function () {
+  it('should navigate from front-page to ivysaur page', function () {
     cy.visit('http://localhost:5000');
     cy.contains('ivysaur').click();
     cy.contains('chlorophyll');
