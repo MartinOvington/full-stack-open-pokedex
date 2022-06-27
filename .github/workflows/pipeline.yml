@@ -65,12 +65,12 @@ jobs:
           severity: info
           details: Build Succeeded!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Test Failure:
+      - name: Test Failure
         uses: rjstone/discord-webhook-notify@v1
         if: failure()
         with:
           severity: error
           username: DeploymentStatusChecker
           text: Commit id ${{github.events.commits[0].id]}}
-          description: 
+          description:
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
