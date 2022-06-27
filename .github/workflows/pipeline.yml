@@ -56,6 +56,7 @@ jobs:
           DEFAULT_BUMP: patch
   notification:
     runs-on: ubuntu-20.04
+    if: ${{ github.event_name == 'push' }}
     steps:
       - name: Test Success
         uses: rjstone/discord-webhook-notify@v1
