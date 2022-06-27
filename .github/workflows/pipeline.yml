@@ -71,6 +71,6 @@ jobs:
         with:
           severity: error
           username: DeploymentStatusChecker
-          text: Commit id ${{github.events.commits[0].id]}}
-          description:
+          text: ${{github.events.commits[0].id]}}
+          description: Commit ID
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
