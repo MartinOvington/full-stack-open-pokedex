@@ -54,3 +54,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
+  notification:
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: ${{ github.event_name == 'push' && success() }}
+        with:
+          severity: info
+          details: Build Succeeded!
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: ${{ github.event_name == 'push' && failure() }}
+        with:
+          severity: error
+          username: DeploymentStatusChecker
+          text: ${{ github.events.commits[0].id }}
+          description: Commit ID
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
