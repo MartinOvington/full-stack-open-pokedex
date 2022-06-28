@@ -60,14 +60,14 @@ jobs:
       - uses: actions/checkout@v3
       - name: Test Success
         uses: rjstone/discord-webhook-notify@v1
-        if: ${{ github.event_name == 'push' && success() }}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && success() }}
         with:
           severity: info
           details: Build Succeeded!
           webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
       - name: Test Failure
         uses: rjstone/discord-webhook-notify@v1
-        if: ${{ github.event_name == 'push' && failure() }}
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && failure() }}
         with:
           severity: error
           username: DeploymentStatusChecker
