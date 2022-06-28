@@ -1,0 +1,17 @@
+name: Scheduled Health Check
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Health Check:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Check the deployed heroku URL
+        uses: jtalk/url-health-check-action@v2
+        with:
+          url: https://marty-pokedex.herokuapp.com/health
+          max-attempts: 2
+          retry-delay: 10s
