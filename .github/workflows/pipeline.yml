@@ -41,6 +41,23 @@ jobs:
           heroku_email: ${{secrets.HEROKU_EMAIL}}
           healthcheck: 'https://marty-pokedex.herokuapp.com/health'
           rollbackonhealthcheckfailed: true
+      - name: Test Success
+        uses: rjstone/discord-webhook-notify@v1
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && success() }}
+        with:
+          severity: info
+          text: A new version of Pokedex was deployed
+          description: to https://marty-pokedex.herokuapp.com/ by ${{github.event.head_commit.committer.username}}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      - name: Test Failure
+        uses: rjstone/discord-webhook-notify@v1
+        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && failure() }}
+        with:
+          severity: error
+          text: Deployment failed
+          description: Commit
+          details: ${{github.event.head_commit.url}} by ${{github.event.head_commit.committer.username}}
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
   tag_release:
     needs: [simple_deployment_pipeline]
     runs-on: ubuntu-20.04
@@ -54,23 +71,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BUMP: patch
-  notification:
-    runs-on: ubuntu-20.04
-    steps:
-      - uses: actions/checkout@v3
-      - name: Test Success
-        uses: rjstone/discord-webhook-notify@v1
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && success() }}
-        with:
-          severity: info
-          details: Build Succeeded!
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
-      - name: Test Failure
-        uses: rjstone/discord-webhook-notify@v1
-        if: ${{ github.event_name == 'push' && !contains(join(github.event.commits.*.message), '#skip') && failure() }}
-        with:
-          severity: error
-          username: DeploymentStatusChecker
-          text: ${{ github.events.commits[0].id }}
-          description: Commit ID
-          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
